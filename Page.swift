@@ -16,7 +16,8 @@ public struct Page<Element>: CollectionType {
     }
     public var endIndex: PageIndex {
         let lastSectionIndex = sections.count - 1
-        let lastIndex = (lastSectionIndex, sections[lastSectionIndex].count - 1)
+        let lastElementIndex = sections[lastSectionIndex].count - 1
+        let lastIndex = (lastSectionIndex, lastElementIndex)
         return PageIndex(sectionsSize: sectionsSize(), currentIndex: lastIndex)
     }
     
