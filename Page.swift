@@ -15,10 +15,7 @@ public struct Page<Element>: CollectionType {
         return PageIndex(sectionsSize: sectionsSize(), currentIndex: (0, 0))
     }
     public var endIndex: PageIndex {
-        let lastSectionIndex = sections.count - 1
-        let lastElementIndex = sections[lastSectionIndex].count - 1
-        let lastIndex = (lastSectionIndex, lastElementIndex)
-        return PageIndex(sectionsSize: sectionsSize(), currentIndex: lastIndex)
+        return PageIndex(sectionsSize: sectionsSize(), currentIndex: (sections.count, 0))
     }
     
     public func generate() -> AnyGenerator<Element> {
@@ -63,7 +60,7 @@ public struct PageIndex: ForwardIndexType {
     public func successor() -> PageIndex {
         let currentSectionMax = sectionsSize[currentIndex.section]
         let newIndex: (Int, Int)
-        if currentIndex.element < currentSectionMax {
+        if currentIndex.element < currentSectionMax - 1 {
             newIndex = (currentIndex.section, currentIndex.element + 1)
         }
         else {
