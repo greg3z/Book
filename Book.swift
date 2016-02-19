@@ -15,11 +15,7 @@ public struct Book<Element>: CollectionType {
         return BookIndex(sectionsSize: sectionsSize(), currentIndex: (0, 0, 0))
     }
     public var endIndex: BookIndex {
-        let lastPageIndex = pages.count - 1
-        let lastSectionIndex = pages[lastPageIndex].sections.count - 1
-        let lastElementIndex = pages[lastPageIndex].sections[lastSectionIndex].count - 1
-        let lastIndex = (lastPageIndex, lastSectionIndex, lastElementIndex)
-        return BookIndex(sectionsSize: sectionsSize(), currentIndex: lastIndex)
+        return BookIndex(sectionsSize: sectionsSize(), currentIndex: (pages.count, 0, 0))
     }
     
     public func generate() -> AnyGenerator<Element> {
@@ -70,12 +66,12 @@ public struct BookIndex: ForwardIndexType {
     public func successor() -> BookIndex {
         let currentSectionMax = sectionsSize[currentIndex.page][currentIndex.section]
         let newIndex: (Int, Int, Int)
-        if currentIndex.element < currentSectionMax {
+        if currentIndex.element < currentSectionMax - 1 {
             newIndex = (currentIndex.page, currentIndex.section, currentIndex.element + 1)
         }
         else {
             let currentPageMax = sectionsSize[currentIndex.page].count
-            if currentIndex.section < currentPageMax {
+            if currentIndex.section < currentPageMax - 1 {
                 newIndex = (currentIndex.page, currentIndex.section + 1, 0)
             }
             else {
