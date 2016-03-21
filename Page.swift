@@ -10,7 +10,7 @@ import Foundation
 
 public struct Page<Element>: CollectionType {
     
-    public let sections: [Section<Element>]
+    public var sections: [Section<Element>]
     public var startIndex: PageIndex {
         return PageIndex(sectionsSize: sectionsSize(), currentIndex: (0, 0))
     }
@@ -40,6 +40,12 @@ public struct Page<Element>: CollectionType {
             return nil
         }
         return self[index]
+    }
+    
+    public mutating func removeAtIndex(index: PageIndex) -> Element {
+        let element = self[index]
+        sections[index.currentIndex.section].removeAtIndex(index.currentIndex.element)
+        return element
     }
     
     private func sectionsSize() -> [Int] {

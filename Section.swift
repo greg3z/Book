@@ -11,7 +11,7 @@ import Foundation
 public struct Section<Element>: CollectionType {
     
     public let title: String
-    public let elements: [Element]
+    public var elements: [Element]
     public var startIndex: Int {
         return 0
     }
@@ -31,6 +31,12 @@ public struct Section<Element>: CollectionType {
             }
             return nil
         }
+    }
+    
+    public mutating func removeAtIndex(index: Int) -> Element {
+        let element = self[index]
+        elements.removeAtIndex(index)
+        return element
     }
     
 }
