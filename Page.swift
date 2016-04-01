@@ -20,7 +20,7 @@ public struct Page<Element>: CollectionType {
     
     public func generate() -> AnyGenerator<Element> {
         var index = PageIndex(sectionsSize: sectionsSize(), currentIndex: (0, 0))
-        return anyGenerator { () -> Element? in
+        return AnyGenerator { () -> Element? in
             guard let element = self[safe: index] else {
                 return nil
             }

@@ -25,9 +25,11 @@ public struct Section<Element>: CollectionType {
     
     public func generate() -> AnyGenerator<Element> {
         var currentIndex = 0
-        return anyGenerator { () -> Element? in
+        return AnyGenerator { () -> Element? in
             if currentIndex < self.elements.count {
-                return self.elements[currentIndex++]
+                let index = currentIndex
+                currentIndex += 1
+                return self.elements[index]
             }
             return nil
         }

@@ -20,7 +20,7 @@ public struct Book<Element>: CollectionType {
     
     public func generate() -> AnyGenerator<Element> {
         var currentIndex = startIndex
-        return anyGenerator { () -> Element? in
+        return AnyGenerator { () -> Element? in
             if let element = self[safe: currentIndex] {
                 currentIndex = currentIndex.successor()
                 return element
