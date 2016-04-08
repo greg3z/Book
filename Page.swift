@@ -18,6 +18,15 @@ public struct Page<Element>: CollectionType {
         return PageIndex(sectionsSize: sectionsSize(), currentIndex: (sections.count, 0))
     }
     
+    public init(sections: [Section<Element>]) {
+        self.sections = sections
+    }
+    
+    public init(_ elements: [Element]) {
+        let section = Section(elements)
+        self.init(sections: [section])
+    }
+    
     public func generate() -> AnyGenerator<Element> {
         var index = PageIndex(sectionsSize: sectionsSize(), currentIndex: (0, 0))
         return AnyGenerator { () -> Element? in

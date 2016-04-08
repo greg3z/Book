@@ -23,6 +23,15 @@ public struct Section<Element>: CollectionType {
         return elements[index]
     }
     
+    public init(title: String, elements: [Element]) {
+        self.title = title
+        self.elements = elements
+    }
+    
+    public init(_ elements: [Element]) {
+        self.init(title: "", elements: elements)
+    }
+    
     public func generate() -> AnyGenerator<Element> {
         var currentIndex = 0
         return AnyGenerator { () -> Element? in
