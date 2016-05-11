@@ -8,16 +8,10 @@
 
 import Foundation
 
-public struct Page<Element>: CollectionType {
+public struct Page<Element> {
     
     public var sections: [Section<Element>]
-    public var startIndex: PageIndex {
-        return PageIndex(sectionsSize: sectionsSize(), currentIndex: (0, 0))
-    }
-    public var endIndex: PageIndex {
-        return PageIndex(sectionsSize: sectionsSize(), currentIndex: (sections.count, 0))
-    }
-    
+
     public init(sections: [Section<Element>]) {
         self.sections = sections
     }
@@ -25,6 +19,17 @@ public struct Page<Element>: CollectionType {
     public init(_ elements: [Element]) {
         let section = Section(elements)
         self.init(sections: [section])
+    }
+    
+}
+
+extension Page: CollectionType {
+    
+    public var startIndex: PageIndex {
+        return PageIndex(sectionsSize: sectionsSize(), currentIndex: (0, 0))
+    }
+    public var endIndex: PageIndex {
+        return PageIndex(sectionsSize: sectionsSize(), currentIndex: (sections.count, 0))
     }
     
     public subscript(index: PageIndex) -> Element {

@@ -8,16 +8,10 @@
 
 import Foundation
 
-public struct Section<Element>: CollectionType {
+public struct Section<Element> {
     
     public let title: String
     public var elements: [Element]
-    public var startIndex: Int {
-        return 0
-    }
-    public var endIndex: Int {
-        return elements.count
-    }
     
     public init(title: String, elements: [Element]) {
         self.title = title
@@ -26,6 +20,17 @@ public struct Section<Element>: CollectionType {
     
     public init(_ elements: [Element]) {
         self.init(title: "", elements: elements)
+    }
+    
+}
+
+extension Section: CollectionType {
+    
+    public var startIndex: Int {
+        return 0
+    }
+    public var endIndex: Int {
+        return elements.count
     }
     
     public subscript(index: Int) -> Element {

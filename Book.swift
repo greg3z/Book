@@ -8,15 +8,9 @@
 
 import Foundation
 
-public struct Book<Element>: CollectionType {
+public struct Book<Element> {
     
     public let pages: [Page<Element>]
-    public var startIndex: BookIndex {
-        return BookIndex(sectionsSize: sectionsSize(), currentIndex: (0, 0, 0))
-    }
-    public var endIndex: BookIndex {
-        return BookIndex(sectionsSize: sectionsSize(), currentIndex: (pages.count, 0, 0))
-    }
     
     public init(pages: [Page<Element>]) {
         self.pages = pages
@@ -25,6 +19,17 @@ public struct Book<Element>: CollectionType {
     public init(_ elements: [Element]) {
         let page = Page(elements)
         self.init(pages: [page])
+    }
+    
+}
+
+extension Book: CollectionType {
+    
+    public var startIndex: BookIndex {
+        return BookIndex(sectionsSize: sectionsSize(), currentIndex: (0, 0, 0))
+    }
+    public var endIndex: BookIndex {
+        return BookIndex(sectionsSize: sectionsSize(), currentIndex: (pages.count, 0, 0))
     }
     
     public subscript(index: BookIndex) -> Element {
