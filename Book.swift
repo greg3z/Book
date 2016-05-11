@@ -27,17 +27,6 @@ public struct Book<Element>: CollectionType {
         self.init(pages: [page])
     }
     
-    public func generate() -> AnyGenerator<Element> {
-        var currentIndex = startIndex
-        return AnyGenerator { () -> Element? in
-            if let element = self[safe: currentIndex] {
-                currentIndex = currentIndex.successor()
-                return element
-            }
-            return nil
-        }
-    }
-    
     public subscript(index: BookIndex) -> Element {
         let currentIndex = index.currentIndex
         return pages[currentIndex.page].sections[currentIndex.section][currentIndex.element]
@@ -53,6 +42,17 @@ public struct Book<Element>: CollectionType {
         return self[index]
     }
     
+    public func generate() -> AnyGenerator<Element> {
+        var currentIndex = startIndex
+        return AnyGenerator { () -> Element? in
+            if let element = self[safe: currentIndex] {
+                currentIndex = currentIndex.successor()
+                return element
+            }
+            return nil
+        }
+    }
+    
     private func sectionsSize() -> [[Int]] {
         var sectionsSize = [[Int]]()
         for page in pages {
@@ -63,6 +63,16 @@ public struct Book<Element>: CollectionType {
             sectionsSize.append(pagesSize)
         }
         return sectionsSize
+    }
+    
+}
+
+extension Book: ArrayLiteralConvertible {
+    
+    public init(arrayLiteral elements: Element...) {
+        let section = Section(title: "", elements: elements)
+        let page = Page(sections: [section])
+        self.init(pages: [page])
     }
     
 }

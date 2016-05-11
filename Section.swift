@@ -19,10 +19,6 @@ public struct Section<Element>: CollectionType {
         return elements.count
     }
     
-    public subscript(index: Int) -> Element {
-        return elements[index]
-    }
-    
     public init(title: String, elements: [Element]) {
         self.title = title
         self.elements = elements
@@ -30,6 +26,10 @@ public struct Section<Element>: CollectionType {
     
     public init(_ elements: [Element]) {
         self.init(title: "", elements: elements)
+    }
+    
+    public subscript(index: Int) -> Element {
+        return elements[index]
     }
     
     public func generate() -> AnyGenerator<Element> {
@@ -48,6 +48,14 @@ public struct Section<Element>: CollectionType {
         let element = self[index]
         elements.removeAtIndex(index)
         return element
+    }
+    
+}
+
+extension Section: ArrayLiteralConvertible {
+    
+    public init(arrayLiteral elements: Element...) {
+        self.init(title: "", elements: elements)
     }
     
 }

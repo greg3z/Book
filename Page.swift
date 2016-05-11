@@ -27,17 +27,6 @@ public struct Page<Element>: CollectionType {
         self.init(sections: [section])
     }
     
-    public func generate() -> AnyGenerator<Element> {
-        var index = PageIndex(sectionsSize: sectionsSize(), currentIndex: (0, 0))
-        return AnyGenerator { () -> Element? in
-            guard let element = self[safe: index] else {
-                return nil
-            }
-            index = index.successor()
-            return element
-        }
-    }
-    
     public subscript(index: PageIndex) -> Element {
         return sections[index.currentIndex.section][index.currentIndex.element]
     }
@@ -49,6 +38,17 @@ public struct Page<Element>: CollectionType {
             return nil
         }
         return self[index]
+    }
+    
+    public func generate() -> AnyGenerator<Element> {
+        var index = PageIndex(sectionsSize: sectionsSize(), currentIndex: (0, 0))
+        return AnyGenerator { () -> Element? in
+            guard let element = self[safe: index] else {
+                return nil
+            }
+            index = index.successor()
+            return element
+        }
     }
     
     public mutating func removeAtIndex(index: PageIndex) -> Element {
@@ -63,6 +63,15 @@ public struct Page<Element>: CollectionType {
             sectionsSize.append(section.count)
         }
         return sectionsSize
+    }
+    
+}
+
+extension Page: ArrayLiteralConvertible {
+    
+    public init(arrayLiteral elements: Element...) {
+        let section = Section(title: "", elements: elements)
+        self.init(sections: [section])
     }
     
 }
