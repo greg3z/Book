@@ -10,7 +10,7 @@ import Foundation
 
 public struct Book<Element> {
     
-    public let pages: [Page<Element>]
+    public var pages: [Page<Element>]
     
     public init(pages: [Page<Element>]) {
         self.pages = pages
@@ -56,6 +56,12 @@ extension Book: CollectionType {
             }
             return nil
         }
+    }
+    
+    public mutating func removeAtIndex(index: BookIndex) -> Element {
+        let element = self[index]
+        pages[index.currentIndex.page].sections[index.currentIndex.section].removeAtIndex(index.currentIndex.element)
+        return element
     }
     
     private func sectionsSize() -> [[Int]] {
