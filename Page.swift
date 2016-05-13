@@ -6,8 +6,6 @@
 //  Copyright © 2015 Grégoire Lhotellier. All rights reserved.
 //
 
-import Foundation
-
 public struct Page<Element> {
     
     public var sections: [Section<Element>]

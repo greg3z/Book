@@ -6,8 +6,6 @@
 //  Copyright © 2015 Kawet. All rights reserved.
 //
 
-import Foundation
-
 public struct Section<Element> {
     
     public let title: String
