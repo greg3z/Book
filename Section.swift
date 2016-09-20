@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Section<Element>: CollectionType {
+public struct Section<Element>: Collection {
     
     public let title: String
     public var elements: [Element]
@@ -23,9 +23,9 @@ public struct Section<Element>: CollectionType {
         return elements[index]
     }
     
-    public func generate() -> AnyGenerator<Element> {
+    public func makeIterator() -> AnyIterator<Element> {
         var currentIndex = 0
-        return anyGenerator { () -> Element? in
+        return AnyIterator { () -> Element? in
             if currentIndex < self.elements.count {
                 return self.elements[currentIndex++]
             }
@@ -33,9 +33,9 @@ public struct Section<Element>: CollectionType {
         }
     }
     
-    public mutating func removeAtIndex(index: Int) -> Element {
+    public mutating func removeAtIndex(_ index: Int) -> Element {
         let element = self[index]
-        elements.removeAtIndex(index)
+        elements.remove(at: index)
         return element
     }
     

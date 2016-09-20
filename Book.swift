@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Book<Element>: CollectionType {
+public struct Book<Element>: Collection {
     
     public let pages: [Page<Element>]
     public var startIndex: BookIndex {
@@ -18,9 +18,9 @@ public struct Book<Element>: CollectionType {
         return BookIndex(sectionsSize: sectionsSize(), currentIndex: (pages.count, 0, 0))
     }
     
-    public func generate() -> AnyGenerator<Element> {
+    public func makeIterator() -> AnyIterator<Element> {
         var currentIndex = startIndex
-        return anyGenerator { () -> Element? in
+        return AnyIterator { () -> Element? in
             if let element = self[safe: currentIndex] {
                 currentIndex = currentIndex.successor()
                 return element
@@ -44,7 +44,7 @@ public struct Book<Element>: CollectionType {
         return self[index]
     }
     
-    private func sectionsSize() -> [[Int]] {
+    fileprivate func sectionsSize() -> [[Int]] {
         var sectionsSize = [[Int]]()
         for page in pages {
             var pagesSize = [Int]()
@@ -58,7 +58,7 @@ public struct Book<Element>: CollectionType {
     
 }
 
-public struct BookIndex: ForwardIndexType {
+public struct BookIndex: Comparable {
     
     let sectionsSize: [[Int]]
     let currentIndex: (page: Int, section: Int, element: Int)

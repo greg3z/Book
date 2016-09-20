@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Page<Element>: CollectionType {
+public struct Page<Element>: Collection {
     
     public var sections: [Section<Element>]
     public var startIndex: PageIndex {
@@ -18,9 +18,9 @@ public struct Page<Element>: CollectionType {
         return PageIndex(sectionsSize: sectionsSize(), currentIndex: (sections.count, 0))
     }
     
-    public func generate() -> AnyGenerator<Element> {
+    public func makeIterator() -> AnyIterator<Element> {
         var index = PageIndex(sectionsSize: sectionsSize(), currentIndex: (0, 0))
-        return anyGenerator { () -> Element? in
+        return AnyIterator { () -> Element? in
             guard let element = self[safe: index] else {
                 return nil
             }
@@ -42,13 +42,13 @@ public struct Page<Element>: CollectionType {
         return self[index]
     }
     
-    public mutating func removeAtIndex(index: PageIndex) -> Element {
+    public mutating func removeAtIndex(_ index: PageIndex) -> Element {
         let element = self[index]
         sections[index.currentIndex.section].removeAtIndex(index.currentIndex.element)
         return element
     }
     
-    private func sectionsSize() -> [Int] {
+    fileprivate func sectionsSize() -> [Int] {
         var sectionsSize = [Int]()
         for section in sections {
             sectionsSize.append(section.count)
@@ -58,7 +58,7 @@ public struct Page<Element>: CollectionType {
     
 }
 
-public struct PageIndex: ForwardIndexType {
+public struct PageIndex: Comparable {
     
     let sectionsSize: [Int]
     let currentIndex: (section: Int, element: Int)
