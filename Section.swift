@@ -19,6 +19,10 @@ public struct Section<Element>: Collection {
         return elements.count
     }
     
+    public func index(after i: Int) -> Int {
+        return i + 1
+    }
+    
     public subscript(index: Int) -> Element {
         return elements[index]
     }
@@ -27,7 +31,8 @@ public struct Section<Element>: Collection {
         var currentIndex = 0
         return AnyIterator { () -> Element? in
             if currentIndex < self.elements.count {
-                return self.elements[currentIndex++]
+                currentIndex += 1
+                return self.elements[currentIndex]
             }
             return nil
         }
