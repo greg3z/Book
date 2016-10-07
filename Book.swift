@@ -18,6 +18,10 @@ public struct Book<Element>: Collection {
         return BookIndex(sectionsSize: sectionsSize(), currentIndex: (pages.count, 0, 0))
     }
     
+    public func index(after i: BookIndex) -> BookIndex {
+        return i.successor()
+    }
+    
     public func makeIterator() -> AnyIterator<Element> {
         var currentIndex = startIndex
         return AnyIterator { () -> Element? in
@@ -62,6 +66,16 @@ public struct BookIndex: Comparable {
     
     let sectionsSize: [[Int]]
     let currentIndex: (page: Int, section: Int, element: Int)
+    
+    public static func <(lhs: BookIndex, rhs: BookIndex) -> Bool {
+        guard lhs.currentIndex.page == rhs.currentIndex.page else {
+            return lhs.currentIndex.page < rhs.currentIndex.page
+        }
+        guard lhs.currentIndex.section == rhs.currentIndex.section else {
+            return lhs.currentIndex.section < rhs.currentIndex.section
+        }
+        return lhs.currentIndex.element < rhs.currentIndex.element
+    }
     
     public func successor() -> BookIndex {
         let currentSectionMax = sectionsSize[currentIndex.page][currentIndex.section]
