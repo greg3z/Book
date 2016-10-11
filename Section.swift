@@ -31,8 +31,9 @@ public struct Section<Element>: Collection {
         var currentIndex = 0
         return AnyIterator { () -> Element? in
             if currentIndex < self.elements.count {
+                let element = self.elements[currentIndex]
                 currentIndex += 1
-                return self.elements[currentIndex]
+                return element
             }
             return nil
         }
